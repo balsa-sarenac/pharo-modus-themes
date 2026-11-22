@@ -1,13 +1,17 @@
 "
-Modus Operandi optimized for red-green color deficiency (deuteranopia): blue and yellow hues take the place of red and green.
-
-Make me current with `ModusOperandiDeuteranopiaTheme beCurrent` or `ModusThemes load: #operandiDeuteranopia`.
+Light theme for red-green color deficiency. Uses blue and yellow in place of red and green.
 "
 Class {
 	#name : #ModusOperandiDeuteranopiaTheme,
 	#superclass : #ModusOperandiTheme,
 	#category : #'ModusThemes-Themes'
 }
+
+{ #category : #accessing }
+ModusOperandiDeuteranopiaTheme class >> themeName [
+
+	^ 'Modus Operandi Deuteranopia'
+]
 
 { #category : #accessing }
 ModusOperandiDeuteranopiaTheme class >> variantName [

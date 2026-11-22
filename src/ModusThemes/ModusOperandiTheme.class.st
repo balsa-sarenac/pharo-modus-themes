@@ -1,7 +1,5 @@
 "
-Elegant, highly legible light theme with a white background. Conforms to WCAG AAA (7:1 contrast).
-
-Make me current with `ModusOperandiTheme beCurrent` or `ModusThemes load: #operandi`.
+Light theme with a white background.
 "
 Class {
 	#name : #ModusOperandiTheme,
@@ -10,6 +8,12 @@ Class {
 	#classTraits : 'TModusTheme classTrait',
 	#category : #'ModusThemes-Themes'
 }
+
+{ #category : #accessing }
+ModusOperandiTheme class >> themeName [
+
+	^ 'Modus Operandi'
+]
 
 { #category : #accessing }
 ModusOperandiTheme class >> variantName [

@@ -1,13 +1,17 @@
 "
-Modus Vivendi optimized for blue-yellow color deficiency (tritanopia): red and cyan hues take the place of blue and yellow.
-
-Make me current with `ModusVivendiTritanopiaTheme beCurrent` or `ModusThemes load: #vivendiTritanopia`.
+Dark theme for blue-yellow color deficiency. Uses red and cyan in place of blue and yellow.
 "
 Class {
 	#name : #ModusVivendiTritanopiaTheme,
 	#superclass : #ModusVivendiTheme,
 	#category : #'ModusThemes-Themes'
 }
+
+{ #category : #accessing }
+ModusVivendiTritanopiaTheme class >> themeName [
+
+	^ 'Modus Vivendi Tritanopia'
+]
 
 { #category : #accessing }
 ModusVivendiTritanopiaTheme class >> variantName [

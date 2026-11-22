@@ -1,25 +1,7 @@
 "
-I build Shout syntax highlighting tables (as used by `SHRBTextStyler`) from a `ModusPalette`.
+Builds a Shout style table from a `ModusPalette`, following the code mappings of the Emacs theme (`fnname`, `keyword`, `builtin`, `constant`, `string`, `type`, `variable`, `preprocessor`, `comment`, `rainbow-N`).
 
-The mapping follows the semantic code mappings of the Emacs modus-themes:
-
-- method names in definitions use `fnname`
-- `^` uses `keyword`
-- `self`, `super`, `thisContext` and `thisProcess` use `builtin`
-- `true`, `false`, `nil` and symbols use `constant`
-- strings and characters use `string`
-- class names and other globals use `type`
-- pragmas and primitives use `preprocessor`
-- variable definitions use `variable` and variable uses `variable-use`
-- comments use `comment`
-- numbers, operators and punctuation stay `fg-main`, as upstream
-- nested parentheses, brackets and braces use the `rainbow-N` colors
-
-The table contains the token names of both the older (Pharo 9/10) and newer (Pharo 11+) Shout versions, so the same table works everywhere; unknown keys are ignored by Shout.
-
-```
-ModusStyleTable forPalette: ModusPalette vivendi.
-```
+The table has token names for both the Shout of Pharo 9 and 10 and the one of Pharo 11 and later. Shout ignores the names it does not know.
 "
 Class {
 	#name : #ModusStyleTable,
@@ -33,7 +15,6 @@ Class {
 
 { #category : #'instance creation' }
 ModusStyleTable class >> forPalette: aModusPalette [
-	"Answer a Shout style table (an Array of arrays) for aModusPalette."
 
 	^ self new
 		  setPalette: aModusPalette;
@@ -107,13 +88,11 @@ ModusStyleTable >> buildIdentifiers [
 	self add: #( #return ) color: #keyword emphasis: self bold.
 	self add: #( #globalVar #global ) color: #type.
 	self add: #( #instVar #classVar #poolConstant ) color: #variable.
-	"Definitions"
 	self add: #( #patternArg #patternTempVar ) color: #variable.
 	self
 		add: #( #blockPatternArg #blockPatternTempVar )
 		color: #variable
 		emphasis: self italic.
-	"Uses"
 	self
 		add: #( #argument #methodArg #tempVar #workspaceVar )
 		color: #'variable-use'.

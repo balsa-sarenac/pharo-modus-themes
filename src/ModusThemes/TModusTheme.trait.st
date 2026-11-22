@@ -1,55 +1,15 @@
 "
-I hold everything the Modus themes share. I am used by `ModusOperandiTheme` (a `PharoLightTheme`) and `ModusVivendiTheme` (a `PharoDarkTheme`).
-
-All colors come from a `ModusPalette`, which uses the names of the Emacs modus-themes. Colors are answered directly by the theme, rather than through the color configurators that Pharo 11 introduced, so the same code works from Pharo 9 onwards.
-
-Users of me define `variantName` on the class side.
+Shared by all Modus themes. Colors are answered by the theme itself instead of through Pharo 11's color configurators, so the same code works from Pharo 9 on. `applyModusSettings` also fills the theme settings, which older Pharo versions read directly.
 "
 Trait {
 	#name : #TModusTheme,
 	#category : #'ModusThemes-Core'
 }
 
-{ #category : #'accessing - colors' }
-TModusTheme classSide >> baseColor [
-
-	^ self palette at: #'bg-dim'
-]
-
-{ #category : #'accessing - colors' }
-TModusTheme classSide >> basePassiveBackgroundColor [
-
-	^ self palette at: #'bg-inactive'
-]
-
-{ #category : #'accessing - colors' }
-TModusTheme classSide >> baseSelectionColor [
-
-	^ self palette at: #'bg-completion'
-]
-
-{ #category : #'accessing - colors' }
-TModusTheme classSide >> darkBaseColor [
-
-	^ self palette at: #'bg-dim'
-]
-
 { #category : #testing }
 TModusTheme classSide >> isAbstract [
 
 	^ false
-]
-
-{ #category : #'accessing - colors' }
-TModusTheme classSide >> lightBaseColor [
-
-	^ self palette at: #'bg-inactive'
-]
-
-{ #category : #'accessing - colors' }
-TModusTheme classSide >> lightSelectionColor [
-
-	^ self palette at: #'bg-completion'
 ]
 
 { #category : #accessing }
@@ -60,49 +20,24 @@ TModusTheme classSide >> palette [
 
 { #category : #accessing }
 TModusTheme classSide >> styleTable [
-	"Answer the Shout style table of this theme."
 
 	^ ModusStyleTable forPalette: self palette
 ]
 
 { #category : #accessing }
 TModusTheme classSide >> styleTableSelector [
-	"The SHRBTextStyler class side selector answering my style table, see the extensions in this package."
 
 	^ ('modus' , self variantName first asUppercase asString , self variantName allButFirst , 'StyleTable') asSymbol
 ]
 
 { #category : #accessing }
-TModusTheme classSide >> themeName [
-
-	| name |
-	name := self variantName.
-	^ String streamContents: [ :stream |
-		  stream nextPutAll: 'Modus '.
-		  name withIndexDo: [ :char :index |
-			  index = 1
-				  ifTrue: [ stream nextPut: char asUppercase ]
-				  ifFalse: [
-					  char isUppercase ifTrue: [ stream space ].
-					  stream nextPut: char ] ] ]
-]
-
-{ #category : #accessing }
 TModusTheme classSide >> variantName [
-	"Answer the name of my ModusPalette, e.g. #vivendiTinted."
 
 	^ self explicitRequirement
 ]
 
-{ #category : #'accessing - colors' }
-TModusTheme classSide >> veryLightSelectionColor [
-
-	^ self palette at: #'bg-hl-line'
-]
-
 { #category : #initialization }
 TModusTheme >> applyModusSettings [
-	"Push the palette into the theme settings, which several Pharo versions read directly."
 
 	self settings
 		windowColor: (self modusColor: #'bg-dim');
@@ -149,7 +84,6 @@ TModusTheme >> badgeTextColor [
 
 { #category : #'accessing - colors' }
 TModusTheme >> balloonBackgroundColor [
-	"Emacs tooltip face."
 
 	^ self modusColor: #'bg-active'
 ]
@@ -163,19 +97,19 @@ TModusTheme >> balloonTextColor [
 { #category : #'accessing - colors' }
 TModusTheme >> baseColor [
 
-	^ self class baseColor
+	^ self modusColor: #'bg-dim'
 ]
 
 { #category : #'accessing - colors' }
 TModusTheme >> basePassiveBackgroundColor [
 
-	^ self class basePassiveBackgroundColor
+	^ self modusColor: #'bg-inactive'
 ]
 
 { #category : #'accessing - colors' }
 TModusTheme >> baseSelectionColor [
 
-	^ self class baseSelectionColor
+	^ self modusColor: #'bg-completion'
 ]
 
 { #category : #'accessing - colors' }
@@ -285,7 +219,7 @@ TModusTheme >> dangerTextColor [
 { #category : #'accessing - colors' }
 TModusTheme >> darkBaseColor [
 
-	^ self class darkBaseColor
+	^ self modusColor: #'bg-dim'
 ]
 
 { #category : #'fill-styles' }
@@ -411,12 +345,6 @@ TModusTheme >> initialize [
 	self applyModusSettings
 ]
 
-{ #category : #testing }
-TModusTheme >> isModusTheme [
-
-	^ true
-]
-
 { #category : #'label-styles' }
 TModusTheme >> labelDisabledColorFor: aLabel [
 
@@ -432,13 +360,13 @@ TModusTheme >> lightBackgroundColor [
 { #category : #'accessing - colors' }
 TModusTheme >> lightBaseColor [
 
-	^ self class lightBaseColor
+	^ self modusColor: #'bg-inactive'
 ]
 
 { #category : #'accessing - colors' }
 TModusTheme >> lightSelectionColor [
 
-	^ self class lightSelectionColor
+	^ self modusColor: #'bg-completion'
 ]
 
 { #category : #'accessing - colors' }
@@ -509,14 +437,12 @@ TModusTheme >> modusBorderWidth [
 
 { #category : #accessing }
 TModusTheme >> modusColor: aSymbol [
-	"Answer the color named aSymbol in my palette, e.g. #'bg-main' or #err."
 
 	^ self palette at: aSymbol
 ]
 
 { #category : #'accessing - colors' }
 TModusTheme >> mouseOverColor [
-	"Emacs highlight face."
 
 	^ self modusColor: #'bg-hover'
 ]
@@ -547,9 +473,8 @@ TModusTheme >> scrollbarPressedThumbFillStyleFor: aScrollbar [
 
 { #category : #'accessing - colors' }
 TModusTheme >> secondarySelectionColor [
-	"Emacs secondary-selection face."
 
-	^ self modusColor: #'bg-hover-secondary'
+	^ self modusColor: #'bg-hl-line'
 ]
 
 { #category : #'accessing - colors' }
@@ -574,12 +499,6 @@ TModusTheme >> selectionColor [
 TModusTheme >> selectionTextColor [
 
 	^ self modusColor: #'fg-main'
-]
-
-{ #category : #accessing }
-TModusTheme >> shStyleTable [
-
-	^ self class styleTable
 ]
 
 { #category : #accessing }
@@ -608,7 +527,6 @@ TModusTheme >> successBackgroundColor [
 
 { #category : #'accessing - colors' }
 TModusTheme >> successTextColor [
-	"Emacs success face."
 
 	^ self modusColor: #info
 ]
@@ -787,7 +705,7 @@ TModusTheme >> urlColor [
 { #category : #'accessing - colors' }
 TModusTheme >> veryLightSelectionColor [
 
-	^ self class veryLightSelectionColor
+	^ self modusColor: #'bg-hl-line'
 ]
 
 { #category : #'accessing - colors' }

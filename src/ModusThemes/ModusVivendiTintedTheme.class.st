@@ -1,13 +1,17 @@
 "
-Like Modus Vivendi, with a night sky background and more colorful accents.
-
-Make me current with `ModusVivendiTintedTheme beCurrent` or `ModusThemes load: #vivendiTinted`.
+Dark theme with a night-blue background.
 "
 Class {
 	#name : #ModusVivendiTintedTheme,
 	#superclass : #ModusVivendiTheme,
 	#category : #'ModusThemes-Themes'
 }
+
+{ #category : #accessing }
+ModusVivendiTintedTheme class >> themeName [
+
+	^ 'Modus Vivendi Tinted'
+]
 
 { #category : #accessing }
 ModusVivendiTintedTheme class >> variantName [
