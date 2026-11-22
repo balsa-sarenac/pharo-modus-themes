@@ -155,3 +155,7 @@ The screenshots are rendered by `scripts/screenshots.st` in the Screenshots work
 - [modus-themes](https://github.com/protesilaos/modus-themes) by Protesilaos Stavrou: palettes and semantic mappings.
 - [modus-themes.nvim](https://github.com/miikanissi/modus-themes.nvim) by Miika Nissi: a port outside Emacs to compare against.
 - [Pastels](https://github.com/Ducasse/Pastels) by Stéphane Ducasse: how a Pharo theme is put together.
+
+## Licence
+
+GPL-3.0, the same as the Emacs themes this is ported from. See [LICENSE](LICENSE).
