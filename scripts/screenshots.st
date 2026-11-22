@@ -1,30 +1,34 @@
 "Render a system browser under every Modus theme and save it as PNG.
 Run from a checkout: pharo Pharo.image st --quit scripts/screenshots.st
-Writes screenshots/<variant>.png next to src/."
+Writes screenshots/<variant>.png in the checkout (GITHUB_WORKSPACE, or the working directory).
+Chunks are separated by ! so the second one compiles after the themes are loaded."
 
-| root out log |
+| root |
 root := (Smalltalk os environment at: 'GITHUB_WORKSPACE' ifAbsent: [ FileSystem workingDirectory fullName ]) asFileReference.
-out := (root / 'screenshots') ensureCreateDirectory; yourself.
-log := [ :string | Stdio stdout nextPutAll: string; lf; flush ].
-
 Metacello new
 	baseline: 'ModusThemes';
 	repository: 'tonel://' , (root / 'src') fullName;
 	load.
+!
 
-log value: 'Display: ' , Display extent printString , ' depth ' , Display depth printString.
+| root out log world |
+root := (Smalltalk os environment at: 'GITHUB_WORKSPACE' ifAbsent: [ FileSystem workingDirectory fullName ]) asFileReference.
+out := (root / 'screenshots') ensureCreateDirectory; yourself.
+log := [ :string | Stdio stdout nextPutAll: string; lf; flush ].
+world := self currentWorld.
+log value: 'World: ' , world extent printString.
 
-ModusThemes themeClasses do: [ :themeClass |
+(Smalltalk at: #ModusThemes) themeClasses do: [ :themeClass |
 	[ | window |
-	(World submorphs select: [ :each | each isSystemWindow ]) do: [ :each | each delete ].
+	(world submorphs select: [ :each | each isSystemWindow ]) do: [ :each | each delete ].
 	themeClass beCurrent.
-	ClyFullBrowserMorph openOnMethod: ModusStyleTable >> #buildIdentifiers.
-	World doOneCycleNow.
-	window := World submorphs detect: [ :each | each isSystemWindow ].
+	ClyFullBrowserMorph openOnMethod: (Smalltalk at: #ModusStyleTable) >> #buildIdentifiers.
+	world doOneCycleNow.
+	window := world submorphs detect: [ :each | each isSystemWindow ].
 	window
 		position: 10 @ 10;
 		extent: 1100 @ 640.
-	3 timesRepeat: [ World doOneCycleNow ].
+	3 timesRepeat: [ world doOneCycleNow ].
 	PNGReadWriter
 		putForm: window imageForm
 		onFileNamed: (out / (themeClass variantName , '.png')) fullName.
@@ -35,3 +39,4 @@ ModusThemes themeClasses do: [ :themeClass |
 			log value: (String streamContents: [ :s | error signalerContext debugStackOn: s ]) ] ].
 
 Smalltalk snapshot: false andQuit: true
+!
