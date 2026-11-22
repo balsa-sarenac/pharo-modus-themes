@@ -1,0 +1,25 @@
+name: Screenshots
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/**'
+      - 'scripts/screenshots.st'
+      - '.github/workflows/screenshots.yml'
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pharo
+        run: mkdir -p "$RUNNER_TEMP/pharo" && cd "$RUNNER_TEMP/pharo" && curl -fsSL https://get.pharo.org/64/130+vm | bash
+      - name: Render screenshots
+        run: cd "$RUNNER_TEMP/pharo" && ./pharo Pharo.image st --quit "$GITHUB_WORKSPACE/scripts/screenshots.st"
+        timeout-minutes: 15
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: screenshots/*.png
+          if-no-files-found: error
