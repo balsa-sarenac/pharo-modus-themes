@@ -26,11 +26,11 @@ Works in Pharo 9 and later. CI tests Pharo 9, 10, 11, 12 and 13.
 ```smalltalk
 Metacello new
 	baseline: 'ModusThemes';
-	repository: 'github://balsa-sarenac/pharo-modus-themes:main/src';
+	repository: 'github://balsa-sarenac/pharo-modus-themes:trunk/src';
 	load.
 ```
 
-To load the tests as well, add `load: #('Tests')`. To try a branch, put its name in place of `main`.
+To load the tests as well, add `load: #('Tests')`. To try a branch, put its name in place of `trunk`.
 
 ## Usage
 
@@ -68,6 +68,29 @@ ModusPalette operandiTinted at: #string.      "the color strings use"
 ModusPalette vivendi colorNames.              "all 295 names"
 UITheme current palette at: #'fg-dim'.        "when a Modus theme is current"
 ```
+
+### Loading at startup in every image
+
+Pharo runs the `.st` files in its preferences folder (`~/.config/pharo/` on Linux, `~/Library/Preferences/pharo/` on macOS, `%APPDATA%\pharo\` on Windows) when an image starts. Add this to one of them, such as `basicSettings.st`:
+
+```smalltalk
+StartupPreferencesLoader default executeAtomicItems: {
+	StartupAction
+		name: 'Modus themes'
+		code: [
+			[
+			(Smalltalk globals includesKey: #ModusThemes) ifFalse: [
+				Metacello new
+					baseline: 'ModusThemes';
+					repository: 'github://balsa-sarenac/pharo-modus-themes:trunk/src';
+					onConflictUseLoaded;
+					load ].
+			(Smalltalk globals at: #ModusThemes) load: #vivendi ]
+				on: Error
+				do: [ :error | Transcript crShow: 'Modus themes: ' , error description ] ] }.
+```
+
+The themes are downloaded the first time an image starts and reused after that. Change `#vivendi` to the variant you want. If the image is offline, it keeps its current theme and notes the error in the Transcript.
 
 ## How it maps
 

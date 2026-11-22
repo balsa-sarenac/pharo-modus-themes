@@ -4,7 +4,7 @@ I load the Modus themes, a port of Protesilaos Stavrou's highly accessible Emacs
 ```
 Metacello new
 	baseline: 'ModusThemes';
-	repository: 'github://balsa-sarenac/pharo-modus-themes:main/src';
+	repository: 'github://balsa-sarenac/pharo-modus-themes:trunk/src';
 	load.
 ```
 
