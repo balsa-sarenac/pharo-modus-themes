@@ -13,6 +13,10 @@ All eight variants are included:
 
 The *deuteranopia* variants are for red-green color deficiency and use blue and yellow in place of red and green. The *tritanopia* variants are for blue-yellow color deficiency and use red and cyan in place of blue and yellow.
 
+![Syntax highlighting of all eight variants](images/palette-preview.png)
+
+*Preview of the colors each variant uses for code, selection and hover, rendered from the palettes outside Pharo.*
+
 Each theme covers the Morphic UI (windows, lists, text editors, buttons, menus, scrollbars, the taskbar, diffs, tooltips) and Shout syntax highlighting.
 
 ## Installation
