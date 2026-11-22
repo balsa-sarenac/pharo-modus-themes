@@ -1,0 +1,8 @@
+*.image
+*.changes
+*.sources
+pharo-local/
+pharo-vm/
+pharo
+pharo-ui
+__pycache__/
