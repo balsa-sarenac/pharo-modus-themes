@@ -8,6 +8,9 @@ on:
       - 'scripts/screenshots.st'
       - '.github/workflows/screenshots.yml'
 
+permissions:
+  contents: write
+
 jobs:
   screenshots:
     runs-on: ubuntu-latest
@@ -23,3 +26,14 @@ jobs:
           name: screenshots
           path: screenshots/*.png
           if-no-files-found: error
+      - name: Commit screenshots
+        if: github.event_name != 'pull_request'
+        run: |
+          mkdir -p images/screenshots
+          cp screenshots/*.png images/screenshots/
+          git add images/screenshots
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update screenshots"
+          git push
