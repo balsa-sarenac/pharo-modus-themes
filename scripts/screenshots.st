@@ -1,7 +1,7 @@
 "Render a system browser under every Modus theme and save it as PNG.
 Run from a checkout: pharo Pharo.image st --quit scripts/screenshots.st
 Writes screenshots/<variant>.png in the checkout (GITHUB_WORKSPACE, or the working directory).
-Chunks are separated by ! so the second one compiles after the themes are loaded."
+The second chunk is compiled only after the first one has loaded the themes."
 
 | root |
 root := (Smalltalk os environment at: 'GITHUB_WORKSPACE' ifAbsent: [ FileSystem workingDirectory fullName ]) asFileReference.
